@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="loading">
-      <partial-loading :html="blocks.loading" />
+      <partial-loading :html="partials.loading" />
     </div>
     <div v-else>
-      <partial-body :html="blocks.body" :data="data" />
+      <partial-body :html="partials.body" :data="data" />
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@ import { VNode } from 'vue';
 
 import { PartialBody, PartialLoading } from '@/components/partials';
 import { extract } from '@/helpers';
+import { Partials } from '@/typings';
 
 @Component({
   components: {
@@ -41,7 +42,7 @@ export default class App extends Vue {
 
   data = {};
 
-  blocks = {
+  partials: Partials = {
     loading: '',
     body: '',
   }
@@ -49,12 +50,12 @@ export default class App extends Vue {
   constructor() {
     super();
     if (!this.url) {
-      throw new Error('url must be defined');
+      throw new Error('URL must be defined');
     }
   }
 
   async mounted() {
-    this.blocks = extract(this.$slots.default as VNode[]);
+    this.partials = extract(this.$slots.default as VNode[]);
     await this.request();
     this.loading = false;
   }

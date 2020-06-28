@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
+    <title>Examples / Currency</title>
+    <style>
+      [data-block] {
+        display: none;
+      }
+    </style>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/currency-flags/2.1.2/currency-flags.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <block-element url="http://floatrates.com/daily/USD.json">
+      <div data-block="loading">
+        <div class="m-4">Loading...</div>
+      </div>
+      <div data-block="body">
+        <div class="m-4 rounded shadow-lg max-w-sm p-4">
+          <h1 class="text-2xl my-4">💱 Currency</h1>
+          <p>
+            <strong>1</strong> <span class="currency-flag currency-flag-usd"></span> is the equivalent to:
+          </p>
+          <ul class="my-4">
+            <li v-for="k in Object.keys(data)">
+              <span class="currency-flag" v-bind:class="'currency-flag-' + data[k].code.toLowerCase()"></span> 
+              <strong>{{ (data[k].rate).toFixed(2) }}</strong>
+              <span class="font-thin">({{ data[k].name }})</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </block-element>
+
+    <script src="../dist/app.js"></script>
+  </body>
+</html>
